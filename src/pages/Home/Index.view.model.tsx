@@ -30,21 +30,13 @@ export const HomeViewModel = () => {
   const fetchLaunches = async (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
 
-    if (!newYear.trim()) {
-      setErrorMsg("Por favor, escolha um ano!");
-      setLaunches([]);
-      return;
-    }
-
     setLoading(true);
     setErrorMsg(null);
 
     try {
       console.log("Enviando query com year:", newYear);
 
-      const result = await urqlClient
-        .query(GET_LAUNCHES, {}, { requestPolicy: "network-only" })
-        .toPromise();
+      const result = await urqlClient.query(GET_LAUNCHES, {}).toPromise();
 
       if (result.error) throw result.error;
 

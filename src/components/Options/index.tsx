@@ -1,12 +1,9 @@
-import { HomeViewModel } from "../../pages/Home/Index.view.model";
 import type { OptionProps } from "../../types/Options";
 import "./style.css";
 
 export const Option = ({ date, home, onYearChange, onSearch }: OptionProps) => {
-  const HomeVM = HomeViewModel();
-
   return (
-    <form onSubmit={HomeVM.fetchLaunches} className="containerStyle">
+    <div className="containerStyle">
       <select
         className="selectStyle"
         onChange={(e) => onYearChange(e.target.value)}
@@ -22,7 +19,7 @@ export const Option = ({ date, home, onYearChange, onSearch }: OptionProps) => {
       <button className="buttonStyle" onClick={onSearch}>
         Buscar
       </button>
-    </form>
+    </div>
   );
 };
 
