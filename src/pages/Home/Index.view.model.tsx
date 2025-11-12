@@ -29,22 +29,21 @@ export const HomeViewModel = () => {
 
   const fetchLaunches = async (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
+
+    if (!newYear.trim()) {
+      setErrorMsg("Por favor, escolha um ano!");
+      setLaunches([]);
+      return;
+    }
+
     setLoading(true);
     setErrorMsg(null);
 
     try {
-      if (!/^\d{4}$/.test(newYear)) {
-        throw new Error("Informe um ano válido (YYYY).");
-      }
-
       console.log("Enviando query com year:", newYear);
 
       const result = await urqlClient
-        .query(
-          GET_LAUNCHES,
-          { year: newYear },
-          { requestPolicy: "network-only" }
-        )
+        .query(GET_LAUNCHES, {}, { requestPolicy: "network-only" })
         .toPromise();
 
       if (result.error) throw result.error;
@@ -52,31 +51,30 @@ export const HomeViewModel = () => {
       console.log("Resultado recebido:", result.data);
 
       // Filtro do ano pelo launch_year
-      const filtered = result.data.launches.filter(
+      const filtered = (result.data?.launches || []).filter(
         (launch: LaunchResponse) => launch.launch_year === newYear
       );
 
-      const mapped: LaunchData[] = (filtered ?? []).map(
-        (launch: LaunchResponse) => ({
-          id: launch.id,
-          mission: launch.mission_name,
-          rocket: launch.rocket?.rocket_name,
-          launchSite: launch.launch_site?.site_name_long,
-          date: launch.launch_date_utc,
-          success: launch.launch_success,
-        })
-      );
+      const mapped: LaunchData[] = filtered.map((launch: LaunchResponse) => ({
+        id: launch.id,
+        mission: launch.mission_name,
+        rocket: launch.rocket?.rocket_name || "Desconhecido",
+        launchSite: launch.launch_site?.site_name_long || "Desconhecido",
+        date: launch.launch_date_utc,
+        success: launch.launch_success ?? null,
+      }));
+
+      if (mapped.length === 0) {
+        setErrorMsg(`Nenhum lançamento encontrado para o ano ${newYear}.`);
+      }
+
       setLaunches(mapped);
     } catch (error) {
-      if (error === 404) {
-        setErrorMsg("Nenhum lançamento encontrado para o ano informado.");
-      }
-      if (error === 500) {
-        setErrorMsg("Erro no servidor. Tente novamente mais tarde.");
-      } else {
-        setErrorMsg((error as Error).message || "Erro ao buscar lançamentos.");
-      }
+      const message =
+        error instanceof Error ? error.message : "Erro ao buscar lançamentos.";
+      setErrorMsg(message);
       console.error("Erro ao buscar lançamentos:", error);
+      setLaunches([]);
     } finally {
       setLoading(false);
     }
