@@ -1,0 +1,22 @@
+.selectStyle {
+  margin-right: 10px;
+  padding: 5px;
+  font-size: 16px;
+  width: 170px;
+}
+
+.buttonStyle {
+  padding: 5px 15px;
+  font-size: 16px;
+  background-color: "#007bff";
+  color: "#fff";
+  border: none;
+  border-radius: "4px";
+  cursor: pointer;
+}
+
+.containerStyle {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
