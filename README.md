@@ -49,7 +49,7 @@ Siga os passos abaixo para executar o projeto localmente.
 1.  **Clone o repositório**
 
     ```bash
-    git clone [https://github.com/YuriElias07/SpaceX.git]
+    git clone https://github.com/YuriElias07/SpaceX.git
     ```
 
 2.  **Acesse a pasta do projeto**
