@@ -1,73 +1,81 @@
-# React + TypeScript + Vite
+# 🚀 Buscador de Lançamentos da SpaceX
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Um projeto simples em React que consome a API GraphQL da SpaceX para listar e filtrar lançamentos de foguetes.
 
-Currently, two official plugins are available:
+Este projeto demonstra como consumir a API GraphQL da SpaceX usando `urql` e TypeScript, implementando um filtro de ano para os lançamentos.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠️ Tecnologias Utilizadas
 
-## React Compiler
+- **React**
+- **TypeScript**
+- **GraphQL**
+- **urql** (Cliente GraphQL leve para React)
+- **SpaceX API** (GraphQL v3)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 💡 Funcionalidades e Observações
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Visualização de lançamentos passados da SpaceX.
+- Filtro de lançamentos por ano usando um menu _dropdown_ (select).
+- Gerenciamento de estado de _loading_ e erro.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Observação Importante sobre o Filtro
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Este projeto utiliza a API v3 GraphQL da SpaceX (endpoint `https://spacex-production.up.railway.app/`).
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Durante o desenvolvimento, foi identificado que o argumento `find: { launch_year: $year }` desta API está **instável ou inoperante**, retornando todos os anos independentemente do filtro.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Para contornar isso, a solução implementada neste projeto é:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1.  Buscar uma lista grande de lançamentos usando GraphQL.
+2.  Aplicar o filtro de ano no lado do cliente usando JavaScript (`.filter()`) no `./src/pages/Home/IndexViewModel.tsx`.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## 📋 Pré-requisitos
+
+Antes de começar, você vai precisar ter as seguintes ferramentas instaladas em sua máquina:
+
+- [Node.js](https://nodejs.org/en/)
+- [Git](https://git-scm.com/)
+
+---
+
+## ⚡ Como Rodar o Projeto
+
+Siga os passos abaixo para executar o projeto localmente.
+
+1.  **Clone o repositório**
+
+    ```bash
+    git clone [https://github.com/YuriElias07/ChallengueSpaceX.git](https://github.com/YuriElias07/ChallengueSpaceX.git)
+    ```
+
+2.  **Acesse a pasta do projeto**
+
+    ```bash
+    cd seu-repositorio
+    ```
+
+3.  **Instale as dependências**
+    (Escolha seu gerenciador de pacotes preferido)
+
+    _Usando npm:_
+
+    ```bash
+    npm install
+    ```
+
+    _Usando Yarn:_
+
+    ```bash
+    yarn install
+    ```
+
+4.  **Execute o projeto**
+    Este comando inicia o servidor de desenvolvimento.
+    _Se for um projeto Vite:_
+    ```bash
+    npm run dev
+    ```
