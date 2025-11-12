@@ -3,7 +3,7 @@ import "./style.css";
 
 export const Option = ({ date, home, onYearChange, onSearch }: OptionProps) => {
   return (
-    <div className="">
+    <div className="containerStyle">
       <select
         className="selectStyle"
         onChange={(e) => onYearChange(e.target.value)}

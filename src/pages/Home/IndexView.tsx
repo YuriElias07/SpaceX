@@ -11,21 +11,19 @@ export const HomeView = () => {
     >
       <h1>Buscador de Lançamentos da SpaceX</h1>
 
-      <form onSubmit={HomeVM.fetchLaunches}>
-        <Option
-          home={HomeVM.newYear}
-          onYearChange={HomeVM.setNewYear}
-          onSearch={HomeVM.fetchLaunches}
-          // renderiando de 2006 ate 2025 com loop
-          date={(() => {
-            const options = [];
-            for (let year = 2006; year <= 2025; year++) {
-              options.push(year);
-            }
-            return options;
-          })()}
-        />
-      </form>
+      <Option
+        home={HomeVM.newYear}
+        onYearChange={HomeVM.setNewYear}
+        onSearch={HomeVM.fetchLaunches}
+        // renderiando de 2006 ate 2025 com loop
+        date={(() => {
+          const options = [];
+          for (let year = 2006; year <= new Date().getFullYear(); year++) {
+            options.push(year);
+          }
+          return options;
+        })()}
+      />
 
       {HomeVM.loading && <p>Carregando...</p>}
       <TableView launches={HomeVM.launches} />
